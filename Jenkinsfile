@@ -5,7 +5,7 @@ pipeline {
         stage("Clone Code"){
             steps {
                 echo "Cloning the code"
-                git url:"https://github.com/LondheShubham153/django-notes-app.git", branch: "main"
+                git url:"https://github.com/lahsiv123/SCE_1.git"
             }
         }
         stage("Build"){
@@ -14,13 +14,14 @@ pipeline {
                 sh "docker build -t my-note-app ."
             }
         }
-        stage("Push to Docker Hub"){
+        stage("Push to AWS ECR"){
             steps {
-                echo "Pushing the image to docker hub"
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag my-note-app ${env.dockerHubUser}/my-note-app:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/my-note-app:latest"
+                echo "Pushing the image to AWS ECR"
+                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 534418046322.dkr.ecr.us-east-1.amazonaws.com"
+                sh "docker build -t django_rep ."
+                sh "docker tag django_rep:latest 534418046322.dkr.ecr.us-east-1.amazonaws.com/django_rep:latest"
+                sh "docker push 534418046322.dkr.ecr.us-east-1.amazonaws.com/django_rep:latest"
+
                 }
             }
         }
