@@ -22,7 +22,6 @@ pipeline {
                 sh "docker build -t django_rep ."
                 sh "docker tag django_rep:latest 534418046322.dkr.ecr.us-east-1.amazonaws.com/django_rep:latest"
                 sh "docker push 534418046322.dkr.ecr.us-east-1.amazonaws.com/django_rep:latest"
-            }
 
                 }
             }
