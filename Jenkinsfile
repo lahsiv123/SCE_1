@@ -16,11 +16,14 @@ pipeline {
         }
         stage("Push to AWS ECR"){
             steps {
+                withAWS(roleAccount:'534418046322', role:'ecr_registry_ec2_fullaccess') {
+
                 echo "Pushing the image to AWS ECR"
                 sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 534418046322.dkr.ecr.us-east-1.amazonaws.com"
                 sh "docker build -t django_rep ."
                 sh "docker tag django_rep:latest 534418046322.dkr.ecr.us-east-1.amazonaws.com/django_rep:latest"
                 sh "docker push 534418046322.dkr.ecr.us-east-1.amazonaws.com/django_rep:latest"
+            }
 
                 }
             }
