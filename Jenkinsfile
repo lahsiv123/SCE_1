@@ -2,12 +2,12 @@ pipeline {
     agent any 
     
     stages{
-        stage("Clone Code"){
-            steps {
-                echo "Cloning the code"
-                git url:"https://github.com/lahsiv123/SCE_1.git"
-            }
-        }
+        // stage("Clone Code"){
+        //     steps {
+        //         echo "Cloning the code"
+        //         git url:"https://github.com/lahsiv123/SCE_1.git"
+        //     }
+        // }
         stage("Build"){
             steps {
                 echo "Building the image"
